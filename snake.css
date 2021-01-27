@@ -1,0 +1,13 @@
+#header {
+    background-color: darkgoldenrod;
+    margin-bottom: 2px;
+    position: relative;
+    text-align: left;
+
+}
+
+h1{
+    font-style: oblique;
+    font-family: "Arial Black";
+    font-size: large;
+}
