@@ -1,13 +1,94 @@
-#header {
-    background-color: darkgoldenrod;
-    margin-bottom: 2px;
-    position: relative;
-    text-align: left;
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+nav{
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    min-height: 10vh;
+    background-color: #6b5b95;
+    font-family: 'Noto', sans-serif;
+
+
+}
+.logo{
+    color: whitesmoke;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 25px;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+.nav-links{
+    display: flex;
+    width: 35%;
+    justify-content: space-around;
+    margin-top: 25px;
+    margin-left: 50%;
 
 }
 
-h1{
-    font-style: oblique;
-    font-family: "Arial Black";
-    font-size: large;
+.nav-links li{
+    list-style: none;
+
+}
+
+.nav-links a{
+
+    color: whitesmoke;
+    text-decoration: none;
+    margin-left: 25px;
+    letter-spacing: 4px;
+    font-weight: bold;
+    font-size: 15px;
+}
+.burger{
+    margin-top: 20px;
+}
+.burger div{
+    width: 20px;
+    height: 3px;
+    color: whitesmoke;
+    margin: 3px;
+    background-color: whitesmoke;
+}
+@media screen and (max-width:900px){
+    .burger div{
+       background-color: #6b5b95;
+    }
+    .nav-links{
+       margin-left: 0px;
+       width: 45%;
+    }
+    .nav-links a{
+        margin-left: 0px;
+    }
+}
+@media screen and (max-width:2000px) and (min-width:900px){
+    .burger div{
+        background-color: #6b5b95;
+    }
+}
+/*Ojo con esto revisar*/
+@media screen and (max-width:620px){
+    .nav-links{
+        display: none;
+        position: absolute;
+        height: 90vh;
+        right: 0px;
+    }
+    .logo{
+
+        margin-left: 25%;
+    }
+    .burger div{
+        background-color: whitesmoke;
+    }
+    .game{
+        display: none;
+    }
 }

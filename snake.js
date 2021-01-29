@@ -1,7 +1,14 @@
-const metric = 25;
+const metric = 20;
+const width = 500;
+const height = 500;
+
+
+
 
 window.onload = function (){
     const canvas = document.getElementById("snakeTable");
+    canvas.setAttribute("width", width.toString());
+    canvas.setAttribute("height",height.toString());
     let context;
     context = canvas.getContext("2d");
     drawGrid(canvas,context);
@@ -9,7 +16,7 @@ window.onload = function (){
     let snake = new Snake(context);
     snake.addDot(d);
     let a = new apple(context, 5,5);
-    let s = setInterval(()=>run(snake,canvas,context, a),100);
+    let s = setInterval(()=>run(snake,canvas,context, a),95);
     setDirection(snake);
 
 }
@@ -27,13 +34,11 @@ function run(snake, canvas, context, apple){
     drawGrid(canvas, context);
     snake.draw();
     apple.drawApple();
-   // physics(snake);
+    physics(snake);
     proveApple(snake, apple, context);
-
     snake.refresh();
-
-
     snake.advance();
+
 
 
 
@@ -52,13 +57,10 @@ function proveApple(snake,apple,context){
     let xA = apple.x;
     let yA = apple.y;
     if(xC===xA && yA===yC){
-       // return true;
-        //snake.refresh();
-        //context.clearRect(apple.x,apple.y,metric,metric);
+
         apple.redraw(context);
         snake.addDot(new Dot(snake.tail[snake.tail.length-1].x, snake.tail[snake.tail.length-1].y,snake.tail[snake.tail.length-1].xs,snake.tail[snake.tail.length-1].ys,context));
 
-       // alert("Encuentro!");
     }else {
         return;
     }// false;}
@@ -102,7 +104,7 @@ function apple(context,x,y){
     }
 
     this.redraw = function(context) {
-        context.clearRect(this.x,this.y,metric,metric);
+     //   context.clearRect(this.x*metric,this.y+metric,metric,metric);
         this.x = getRandomArbitrary(0,20);
         this.y = getRandomArbitrary(0,20);
       //  this.x=10;
@@ -113,7 +115,19 @@ function apple(context,x,y){
 function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
+function lose(snake){
+    console.log("You Lose");
+    //Cambiar texto a perdiste
 
+    //Cambiar puntuacion a 0
+
+    //
+    snake.tail.length=1;
+    snake.tail[0].x=0;
+    snake.tail[0].y=0;
+    snake.tail[0].xs=0;
+    snake.tail[0].ys=1;
+}
 function Snake(context){
     this.tail = [];
 
@@ -124,17 +138,25 @@ function Snake(context){
 
     this.setHeadDirection = function(number) {
         let head = this.tail[0];
+        let deUno = this.tail.length > 1;
         switch (number){
             case 40:
+
+              if(head.ys===-1 && deUno){
+                  return;
+              }
               head.xs =0;
               head.ys =1;
               break;
             case 38:
+                if(head.ys === 1 && deUno){
+                    return;
+                }
                 head.xs =0;
                 head.ys =-1;
                 break;
             case 37:
-                if(head.xs===1){
+                if(head.xs===1 && deUno){
                     return;
                 }else {
                     head.xs =-1;
@@ -142,7 +164,7 @@ function Snake(context){
                 }
                 break;
             case 39:
-                if(head.xs===-1){
+                if(head.xs===-1&& deUno){
                     return;
                 }else{
                     head.xs = 1;
@@ -183,8 +205,8 @@ function Snake(context){
     this.advance =  function(){
 
         let head = this.tail[0];
-        if(head.x >= 20 || head.y>=20 || head.x < 0 || head.y < 0){
-            head.setValues(0,0,0,0);
+        if(head.x >= width/metric  || head.y >= height/metric || head.x < 0 || head.y < 0){
+            lose(this);
         }else {
             head.x = head.x + head.xs;
             head.y = head.y + head.ys;
@@ -205,11 +227,11 @@ function compareDots(dotA, dotB){
     }
 }
 function physics(snake){
-    for(let i=1 ; i< this.tail.length-1; i++){
-        if(compareDots(this.tail[0], this.tail[i])){
-            alert("YouLose");
-        }else{
-            return;
+    let head = snake.tail[0];
+    for(let i=1 ; i< snake.tail.length-1; i++){
+        if(head.x === snake.tail[i].x && head.y === snake.tail[i].y) {
+            lose(snake);
+            //alert("YouLose");
         }
     }
 }
